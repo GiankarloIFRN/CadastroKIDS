@@ -1,4 +1,4 @@
-SQL
+
 -- 1. TABELA DE RESPONSÁVEIS
 -- Evita recadastramento: um responsável pode ter N crianças vinculadas.
 CREATE TABLE responsaveis (
@@ -38,7 +38,6 @@ CREATE TABLE criancas (
     alergias TEXT,                     -- Ex: Pícada de abelha, Amendoim, Lactose
     necessidades_especiais TEXT,       -- Ex: Autismo, TDAH, restrições físicas
     observacoes_medicas TEXT,
-    
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_responsavel_principal) REFERENCES responsaveis(id_responsavel)
 );
@@ -80,7 +79,6 @@ CREATE INDEX idx_responsaveis_cpf ON responsaveis(cpf);
 CREATE INDEX idx_criancas_nome ON criancas(nome);
 CREATE INDEX idx_presenca_status ON presenca_espaco_kids(status, id_evento);
 
-SQL
 SELECT 
     c.nome AS nome_crianca,
     TIMESTAMPDIFF(YEAR, c.data_nascimento, CURDATE()) AS idade,
@@ -97,7 +95,8 @@ JOIN responsaveis r ON c.id_responsavel_principal = r.id_responsavel
 WHERE (c.nome LIKE '%NomeDaCrianca%' OR p.pulseira_identificacao = 'P-102')
   AND p.status = 'PRESENTE';
 
-  SQL
+--Atividade do dia 13/10 começa aqui
+
 SELECT 
     c.nome AS crianca,
     r.nome AS responsavel,
@@ -110,6 +109,7 @@ JOIN responsaveis r ON c.id_responsavel_principal = r.id_responsavel
 WHERE p.id_evento = 1 
   AND p.status = 'PRESENTE'
 ORDER BY p.data_hora_entrada DESC;
+
 
 -- 8 Inserções individuais na Tabela A (responsaveis)
 INSERT INTO responsaveis (id_responsavel, nome, cpf, rg, telefone, telefone_emergencia, email, parentesco) 
