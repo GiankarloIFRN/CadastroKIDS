@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Kids - Gestão & Controle (kidsDB)</title>
+    <style>
+        /* ==========================================================================
+           IDENTIDADE VISUAL E VARIÁVEIS (AZUL E LARANJA)
+           ========================================================================== */
+        :root {
+            --azul-escuro: #003d82;
+            --azul-primario: #0056B3;
+            --azul-medio: #1D4ED8;
+            --azul-claro: #e8f1fb;
+            --laranja-primario: #FF6B00;
+            --laranja-hover: #e05e00;
+            --laranja-secundario: #F97316;
+            --laranja-claro: #fff3eb;
+            --fundo-pagina: #f4f7fa;
+            --branco: #ffffff;
+            --texto-escuro: #1e293b;
+            --texto-suave: #64748b;
+            --borda: #cbd5e1;
+            --vermelho-alerta: #dc2626;
+            --vermelho-fundo: #fef2f2;
+            --verde-sucesso: #16a34a;
+            --verde-fundo: #f0fdf4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--fundo-pagina);
+            color: var(--texto-escuro);
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
+
+        /* ==========================================================================
+           CABEÇALHO E NAVEGAÇÃO
+           ========================================================================== */
+        header {
+            background: linear-gradient(135deg, var(--azul-escuro), var(--azul-primario));
+            color: var(--branco);
+            padding: 18px 24px;
+            border-bottom: 4px solid var(--laranja-primario);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-area h1 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-badge {
+            background-color: var(--laranja-primario);
+            color: var(--branco);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-area p {
+            font-size: 0.85rem;
+            color: #dbeafe;
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav.tabs {
+            background-color: var(--branco);
+            border-bottom: 1px solid var(--borda);
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+
+        .tabs-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--texto-suave);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--azul-primario);
+            background-color: var(--azul-claro);
+        }
+
+        .tab-btn.active {
+            color: var(--azul-primario);
+            border-bottom-color: var(--laranja-primario);
+            background-color: var(--laranja-claro);
+        }
+
+        /* ==========================================================================
+           CONTAINER PRINCIPAL E SEÇÕES
+           ========================================================================== */
+        main {
+            max-width: 1280px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ==========================================================================
+           CARDS E TÍTULOS
+           ========================================================================== */
+        .card {
+            background-color: var(--branco);
+            border: 1px solid var(--borda);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--azul-claro);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            color: var(--azul-primario);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-emergencia {
+            border: 2px solid var(--laranja-primario);
+            background: linear-gradient(to bottom right, #ffffff, #fff8f3);
+        }
+
+        /* ==========================================================================
+           FORMULÁRIOS E BOTÕES
+           ========================================================================== */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--texto-escuro);
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--borda);
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: var(--texto-escuro);
+            background-color: var(--branco);
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--azul-primario);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.12);
+        }
+
+        fieldset {
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 16px;
+            background-color: #f8fafc;
+        }
+
+        legend {
+            padding: 0 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--azul-primario);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-laranja {
+            background-color: var(--laranja-primario);
+            color: var(--branco);
+        }
+
+        .btn-laranja:hover {
+            background-color: var(--laranja-hover);
+        }
+
+        .btn-azul {
+            background-color: var(--azul-primario);
+            color: var(--branco);
+        }
+
+        .btn-azul:hover {
+            background-color: var(--azul-escuro);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--azul-primario);
+            color: var(--azul-primario);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--azul-claro);
+        }
+
+        .btn-outline-light {
+            background-color: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--branco);
+        }
+
+        .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           TABELAS E BADGES
+           ========================================================================== */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        th {
+            background-color: var(--azul-primario);
+            color: var(--branco);
+            text-align: left;
+            padding: 11px 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        th:first-child { border-top-left-radius: 6px; }
+        th:last-child { border-top-right-radius: 6px; }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--borda);
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-azul { background-color: var(--azul-claro); color: var(--azul-primario); }
+        .badge-laranja { background-color: var(--laranja-claro); color: var(--laranja-hover); border: 1px solid #fed7aa; }
+        .badge-alerta { background-color: var(--vermelho-fundo); color: var(--vermelho-alerta); border: 1px solid #fecaca; }
+        .badge-sucesso { background-color: var(--verde-fundo); color: var(--verde-sucesso); border: 1px solid #bbf7d0; }
+
+        /* ==========================================================================
+           RESULTADO DA BUSCA DE EMERGÊNCIA
+           ========================================================================== */
+        .emergencia-resultado {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        .alerta-box {
+            background-color: var(--vermelho-fundo);
+            border: 2px solid var(--vermelho-alerta);
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .alerta-box h4 {
+            color: var(--vermelho-alerta);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alerta-item {
+            font-size: 0.88rem;
+            margin-bottom: 5px;
+        }
+
+        .alerta-destaque {
+            background-color: #fee2e2;
+            padding: 6px 8px;
+            border-radius: 5px;
+            margin-top: 6px;
+            font-weight: 600;
+            color: #991b1b;
+        }
+
+        /* ==========================================================================
+           EMAILS DINÂMICOS E CONSOLE SQL
+           ========================================================================== */
+        .email-item-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sql-console {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            max-height: 360px;
+            overflow-y: auto;
+            border: 2px solid var(--azul-primario);
+        }
+
+        .sql-entry {
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .sql-meta {
+            color: var(--laranja-secundario);
+            font-size: 0.78rem;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .sql-code {
+            color: #38bdf8;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* ==========================================================================
+           MODAL DE CHECK-OUT E NOTIFICAÇÕES (TOAST)
+           ========================================================================== */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 23, 42, 0.6);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background-color: var(--branco);
+            border-radius: 10px;
+            max-width: 480px;
+            width: 100%;
+            padding: 22px;
+            border-top: 5px solid var(--laranja-primario);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            padding: 12px 18px;
+            border-left: 5px solid var(--laranja-primario);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.25s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .stat-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--branco);
+            border-left: 4px solid var(--azul-primario);
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .stat-card.orange {
+            border-left-color: var(--laranja-primario);
+        }
+
+        .stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--azul-primario);
+        }
+
+        .stat-card.orange .stat-num {
+            color: var(--laranja-primario);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--texto-suave);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <h1>
+                    <span>🧸 Espaço Kids</span>
+                    <span class="logo-badge">kidsDB v1.0</span>
+                </h1>
+                <p>Sistema Integrado de Controle de Frequência, Segurança e Emergência Infantil</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-laranja btn-sm" onclick="exportarDumpSQL()">💾 Exportar Dump SQL</button>
+                <button class="btn btn-outline-light btn-sm" onclick="resetarBancoDados()">🔄 Restaurar Dados Iniciais</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVEGAÇÃO POR ABAS -->
+    <nav class="tabs">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="mudarAba('frequencia', this)">📋 Frequência & Emergência</button>
+            <button class="tab-btn" onclick="mudarAba('responsaveis', this)">👨‍👩‍👧 Responsáveis & Termos</button>
+            <button class="tab-btn" onclick="mudarAba('criancas', this)">🧒 Crianças</button>
+            <button class="tab-btn" onclick="mudarAba('eventos', this)">📅 Eventos</button>
+            <button class="tab-btn" onclick="mudarAba('console', this)">💻 Console SQL (<span id="sql-count">0</span>)</button>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <!-- INDICADORES RÁPIDOS -->
+        <div class="stat-bar">
+            <div class="stat-card orange">
+                <div class="stat-num" id="stat-presentes">0</div>
+                <div class="stat-label">Crianças Presentes Agora</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-criancas">0</div>
+                <div class="stat-label">Crianças Cadastradas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-responsaveis">0</div>
+                <div class="stat-label">Responsáveis Ativos</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-num" id="stat-eventos">0</div>
+                <div class="stat-label">Eventos Registrados</div>
+            </div>
+        </div>
+
+        <!-- ======================================================================
+             ABA 1: CONTROLE DE FREQUÊNCIA & BUSCA DE EMERGÊNCIA
+             ====================================================================== -->
+        <section id="aba-frequencia" class="tab-content active">
+            
+            <!-- CONSULTA 1: BUSCA RÁPIDA DE EMERGÊNCIA -->
+            <div class="card card-emergencia">
+                <div class="card-header">
+                    <h2 class="card-title" style="color: var(--laranja-hover);">🚨 Busca Rápida em Casos de Emergência (CONSULTA 1)</h2>
+                    <span class="badge badge-laranja">Status = 'PRESENTE'</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label for="busca-emergencia">Buscar por Nome da Criança ou Nº da Pulseira (ex: P-102):</label>
+                        <input type="text" id="busca-emergencia" placeholder="Digite o nome ou código da pulseira..." oninput="executarBuscaEmergencia()">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0; display:flex; align-items:flex-end;">
+                        <button class="btn btn-laranja" style="width:100%;" onclick="executarBuscaEmergencia(true)">🔍 Consultar Emergência SQL</button>
+                    </div>
+                </div>
+                <div id="resultado-emergencia" class="emergencia-resultado"></div>
+            </div>
+
+            <div class="grid-2">
+                <!-- FORMULÁRIO DE CHECK-IN -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">✅ Realizar Check-in (Entrada)</h2>
+                        <span class="badge badge-azul">presenca_espaco_kids</span>
+                    </div>
+                    <form id="form-checkin" onsubmit="registrarCheckin(event)">
+                        <div class="form-group">
+                            <label for="checkin-evento">Evento *</label>
+                            <select id="checkin-evento" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkin-crianca">Criança *</label>
+                            <select id="checkin-crianca" required onchange="autoSelecionarResponsavelCheckin()"></select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkin-responsavel">Responsável pela Entrada *</label>
+                                <select id="checkin-responsavel" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkin-pulseira">Pulseira de Identificação *</label>
+                                <input type="text" id="checkin-pulseira" placeholder="Ex: P-105" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkin-obs">Observações do Turno</label>
+                            <input type="text" id="checkin-obs" placeholder="Ex: Trouxe mochila azul e garrafa d'água">
+                        </div>
+                        <button type="submit" class="btn btn-laranja" style="width:100%;">Registrar Entrada no Espaço Kids</button>
+                    </form>
+                </div>
+
+                <!-- RESUMO DO EVENTO SELECIONADO -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📌 Filtro de Frequência por Evento</h2>
+                        <span class="badge badge-azul">CONSULTA 2</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-evento-presenca">Selecione o Evento para visualizar presentes:</label>
+                        <select id="filtro-evento-presenca" onchange="renderizarTabelaPresentes(true)"></select>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--texto-suave); margin-bottom: 12px;">
+                        Abaixo são exibidas todas as crianças atualmente com status <strong>PRESENTE</strong> no evento selecionado, ordenadas pela entrada mais recente.
+                    </p>
+                    <div style="background: var(--azul-claro); padding: 12px; border-radius: 6px; font-size: 0.85rem; color: var(--azul-escuro);">
+                        <strong>Dica de Segurança:</strong> No momento da retirada (Check-out), confira o documento do responsável autorizado e o número da pulseira antes de confirmar a saída.
+                    </div>
+                </div>
+            </div>
+
+            <!-- LISTA DE CRIANÇAS PRESENTES NO EVENTO -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🧒 Crianças Presentes no Evento</h2>
+                    <span class="badge badge-sucesso" id="badge-total-evento">0 presentes</span>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pulseira</th>
+                                <th>Criança (Idade)</th>
+                                <th>Alertas Médicos</th>
+                                <th>Responsável Entrada</th>
+                                <th>Telefone</th>
+                                <th>Hora Entrada</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-presentes"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             ABA 2: RESPONSÁVEIS, E-MAILS (1FN) & TERMOS DE ADESÃO
+             ====================================================================== -->
+        <section id="aba-responsaveis" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">👨‍👩‍👧 Cadastro de Responsável & Termo de Adesão</h2>
+                    <span class="badge badge-azul">1FN: Endereço Composto + E-mails Multivalorados</span>
+                </div>
+                <form id="form-responsavel" onsubmit="cadastrarResponsavel(event)">
+                    <fieldset>
+                        <legend>Dados Pessoais (Tabela: responsaveis)</legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="resp-nome">Nome Completo *</label>
+                                <input type="text" id="resp-nome" required placeholder="Ex: Mariana Costa Silva">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-cpf">CPF (Único) *</label>
+                                <input type="text" id="resp-cpf" required placeholder="000.000.000-00" maxlength="14">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-telefone">Telefone / WhatsApp *</label>
+                                <input type="text" id="resp-telefone" required placeholder="(11) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-parentesco">Parentesco *</label>
+                                <select id="resp-parentesco" required>
+                                    <option value="Mãe">Mãe</option>
+                                    <option value="Pai">Pai</option>
+                                    <option value="Avó/Avô">Avó/Avô</option>
+                                    <option value="Tio/Tia">Tio/Tia</option>
+                                    <option value="Tutor Legal">Tutor Legal</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Atributo Composto: Endereço Desmembrado (1FN)</legend>
+                        <div class="form-row">
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label for="resp-logradouro">Logradouro (Rua/Av.)</label>
+                                <input type="text" id="resp-logradouro" placeholder="Ex: Av. Paulista">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-numero">Número</label>
+                                <input type="text" id="resp-numero" placeholder="Ex: 1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-bairro">Bairro</label>
+                                <input type="text" id="resp-bairro" placeholder="Ex: Bela Vista">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="resp-cidade">Cidade</label>
+                                <input type="text" id="resp-cidade" placeholder="Ex: São Paulo">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-uf">UF</label>
+                                <input type="text" id="resp-uf" maxlength="2" placeholder="SP" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="resp-cep">CEP</label>
+                                <input type="text" id="resp-cep" maxlength="10" placeholder="00000-000">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="grid-2">
+                        <!-- ATRIBUTO MULTIVALORADO: E-MAILS -->
+                        <fieldset>
+                            <legend>Atributo Multivalorado: E-mails (responsaveis_emails)</legend>
+                            <div id="lista-inputs-emails">
+                                <div class="email-item-row">
+                                    <input type="email" class="input-email-resp" placeholder="principal@email.com" required>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="adicionarCampoEmail()">+ Adicionar outro e-mail</button>
+                        </fieldset>
+
+                        <!-- TERMO DE ADESÃO -->
+                        <fieldset>
+                            <legend>Termo de Responsabilidade (termos_adesao)</legend>
+                            <div class="form-group">
+                                <label for="termo-tipo">Tipo de Assinatura *</label>
+                                <select id="termo-tipo" onchange="alternarHashTermo()">
+                                    <option value="DIGITAL">DIGITAL (Gera Hash SHA-256 simulado)</option>
+                                    <option value="FISICA">FISICA (Assinatura em papel)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="grupo-hash">
+                                <label>Hash da Assinatura Digital (Automático)</label>
+                                <input type="text" id="termo-hash" readonly style="background:#e2e8f0; font-family:monospace; font-size:0.8rem;">
+                            </div>
+                            <div class="form-group" style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+                                <input type="checkbox" id="termo-aceito" required checked style="width:auto;">
+                                <label for="termo-aceito" style="margin:0;">Declaro que o responsável leu e aceitou o termo de adesão *</label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <button type="submit" class="btn btn-azul">Salvar Responsável, E-mails e Termo</button>
+                </form>
+            </div>
+
+            <!-- LISTAGEM DE RESPONSÁVEIS -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📑 Responsáveis Cadastrados</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome / Parentesco</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>E-mails (1:N)</th>
+                                <th>Endereço</th>
+                                <th>Termo Adesão</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-responsaveis"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             ABA 3: CRIANÇAS
+             ====================================================================== -->
+        <section id="aba-criancas" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🧒 Cadastro de Criança</h2>
+                    <span class="badge badge-azul">Tabela: criancas</span>
+                </div>
+                <form id="form-crianca" onsubmit="cadastrarCrianca(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="crianca-responsavel">Responsável Principal *</label>
+                            <select id="crianca-responsavel" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="crianca-nome">Nome Completo da Criança *</label>
+                            <input type="text" id="crianca-nome" required placeholder="Ex: Lucas Costa Silva">
+                        </div>
+                        <div class="form-group">
+                            <label for="crianca-nascimento">Data de Nascimento *</label>
+                            <input type="date" id="crianca-nascimento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="crianca-sangue">Tipo Sanguíneo</label>
+                            <select id="crianca-sangue">
+                                <option value="">Não informado</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="crianca-alergias">Alergias (Importante para Emergência)</label>
+                            <textarea id="crianca-alergias" rows="2" placeholder="Ex: Alergia a amendoim, corante amarelo, dipirona..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="crianca-necessidades">Necessidades Especiais</label>
+                            <textarea id="crianca-necessidades" rows="2" placeholder="Ex: TEA nível 1, intolerância a barulhos altos..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="crianca-obs">Observações Médicas</label>
+                            <textarea id="crianca-obs" rows="2" placeholder="Ex: Usa bombinha para asma em caso de crise..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-laranja">Cadastrar Criança</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Crianças Cadastradas</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Idade (Nasc.)</th>
+                                <th>Tipo Sang.</th>
+                                <th>Responsável Principal</th>
+                                <th>Alergias & Saúde</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-criancas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             ABA 4: EVENTOS
+             ====================================================================== -->
+        <section id="aba-eventos" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📅 Cadastro de Evento</h2>
+                    <span class="badge badge-azul">Tabela: eventos</span>
+                </div>
+                <form id="form-evento" onsubmit="cadastrarEvento(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evento-nome">Nome do Evento *</label>
+                            <input type="text" id="evento-nome" required placeholder="Ex: Conferência Família & Fé 2026">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-local">Local</label>
+                            <input type="text" id="evento-local" placeholder="Ex: Salão Anexo B - Espaço Kids">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-inicio">Data e Hora de Início *</label>
+                            <input type="datetime-local" id="evento-inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-fim">Data e Hora de Término *</label>
+                            <input type="datetime-local" id="evento-fim" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-azul">Criar Evento</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🗓️ Eventos Cadastrados</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome do Evento</th>
+                                <th>Local</th>
+                                <th>Início</th>
+                                <th>Término</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-eventos"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             ABA 5: CONSOLE SQL (DIDÁTICO & AUDITORIA)
+             ====================================================================== -->
+        <section id="aba-console" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💻 Histórico de Comandos SQL Executados (kidsDB)</h2>
+                    <button class="btn btn-outline btn-sm" onclick="limparConsoleSQL()">Limpar Log</button>
+                </div>
+                <p style="font-size:0.88rem; color: var(--texto-suave); margin-bottom: 12px;">
+                    Cada operação realizada na interface gera abaixo a respectiva instrução SQL compatível com o banco de dados <strong>kidsDB</strong> (MySQL).
+                </p>
+                <div class="sql-console" id="sql-console-log"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE CHECK-OUT -->
+    <div class="modal-backdrop" id="modal-checkout">
+        <div class="modal-box">
+            <h3 style="color: var(--azul-primario); margin-bottom: 10px;">🚪 Confirmar Check-out (Saída)</h3>
+            <p id="checkout-info-crianca" style="font-size: 0.92rem; margin-bottom: 14px; background: var(--azul-claro); padding: 10px; border-radius: 6px;"></p>
+            <input type="hidden" id="checkout-id-presenca">
+            <div class="form-group">
+                <label for="checkout-responsavel">Responsável que está retirando a criança (id_responsavel_saida) *</label>
+                <select id="checkout-responsavel"></select>
+            </div>
+            <div class="form-group">
+                <label for="checkout-obs">Observações de Saída (Opcional)</label>
+                <input type="text" id="checkout-obs" placeholder="Ex: Retirada sem intercorrências, pulseira conferida.">
+            </div>
+            <div style="display:flex; gap:10px; justify-content: flex-end; margin-top: 16px;">
+                <button type="button" class="btn btn-outline" onclick="fecharModalCheckout()">Cancelar</button>
+                <button type="button" class="btn btn-laranja" onclick="confirmarCheckout()">Confirmar Saída (AUSENTE)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTAINER DE NOTIFICAÇÕES -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ==========================================================================
+         LÓGICA JAVASCRIPT & SIMULAÇÃO DO BANCO RELACIONAL kidsDB
+         ========================================================================== -->
+    <script>
+        const STORAGE_KEY = 'kidsDB_state_v1';
+        let sqlLogs = [];
+
+        // Dados iniciais realistas para testes imediatos
+        const DADOS_INICIAIS = {
+            responsaveis: [
+                {
+                    id_responsavel: 1,
+                    nome: 'Ana Paula Mendes',
+                    cpf: '123.456.789-00',
+                    telefone: '(11) 98765-4321',
+                    parentesco: 'Mãe',
+                    logradouro: 'Rua das Acácias',
+                    numero: '240',
+                    bairro: 'Jardim América',
+                    cidade: 'São Paulo',
+                    uf: 'SP',
+                    cep: '01420-000',
+                    criado_em: '2026-11-10 08:30:00'
+                },
+                {
+                    id_responsavel: 2,
+                    nome: 'Carlos Eduardo Mendes',
+                    cpf: '234.567.890-11',
+                    telefone: '(11) 99123-4567',
+                    parentesco: 'Pai',
+                    logradouro: 'Rua das Acácias',
+                    numero: '240',
+                    bairro: 'Jardim América',
+                    cidade: 'São Paulo',
+                    uf: 'SP',
+                    cep: '01420-000',
+                    criado_em: '2026-11-10 08:35:00'
+                },
+                {
+                    id_responsavel: 3,
+                    nome: 'Fernanda Oliveira Santos',
+                    cpf: '345.678.901-22',
+                    telefone: '(11) 97654-3210',
+                    parentesco: 'Mãe',
+                    logradouro: 'Av. Brasil',
+                    numero: '1500',
+                    bairro: 'Centro',
+                    cidade: 'Campinas',
+                    uf: 'SP',
+                    cep: '13010-000',
+                    criado_em: '2026-11-11 09:00:00'
+                }
+            ],
+            responsaveis_emails: [
+                { id_email: 1, id_responsavel: 1, email: 'ana.mendes@email.com' },
+                { id_email: 2, id_responsavel: 1, email: 'anapaula.trabalho@empresa.com' },
+                { id_email: 3, id_responsavel: 2, email: 'carlos.mendes@email.com' },
+                { id_email: 4, id_responsavel: 3, email: 'fernanda.santos@email.com' }
+            ],
+            termos_adesao: [
+                {
+                    id_termo: 1,
+                    id_responsavel: 1,
+                    tipo_assinatura: 'DIGITAL',
+                    hash_assinatura_digital: 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3',
+                    termo_aceito: true,
+                    data_assinatura: '2026-11-10 08:31:00'
+                },
+                {
+                    id_termo: 2,
+                    id_responsavel: 2,
+                    tipo_assinatura: 'FISICA',
+                    hash_assinatura_digital: null,
+                    termo_aceito: true,
+                    data_assinatura: '2026-11-10 08:36:00'
+                },
+                {
+                    id_termo: 3,
+                    id_responsavel: 3,
+                    tipo_assinatura: 'DIGITAL',
+                    hash_assinatura_digital: '7c4a8d09ca3762af61e59520943dc26494f8941b',
+                    termo_aceito: true,
+                    data_assinatura: '2026-11-11 09:02:00'
+                }
+            ],
+            criancas: [
+                {
+                    id_crianca: 1,
+                    id_responsavel_principal: 1,
+                    nome: 'Gabriel Mendes',
+                    data_nascimento: '2019-05-14',
+                    tipo_sanguineo: 'O+',
+                    alergias: 'Alergia severa a amendoim e nozes',
+                    necessidades_especiais: 'Nenhuma',
+                    observacoes_medicas: 'Portador de caneta de adrenalina na mochila.',
+                    criado_em: '2026-11-10 08:40:00'
+                },
+                {
+                    id_crianca: 2,
+                    id_responsavel_principal: 1,
+                    nome: 'Sofia Mendes',
+                    data_nascimento: '2022-02-20',
+                    tipo_sanguineo: 'A+',
+                    alergias: 'Intolerância à lactose',
+                    necessidades_especiais: 'Nenhuma',
+                    observacoes_medicas: 'Oferecer apenas água ou suco natural.',
+                    criado_em: '2026-11-10 08:42:00'
+                },
+                {
+                    id_crianca: 3,
+                    id_responsavel_principal: 3,
+                    nome: 'Miguel Oliveira Santos',
+                    data_nascimento: '2020-09-10',
+                    tipo_sanguineo: 'B-',
+                    alergias: 'Dipirona',
+                    necessidades_especiais: 'TEA Nível 1 (Sensibilidade auditiva)',
+                    observacoes_medicas: 'Usa abafador de ruídos em atividades musicais.',
+                    criado_em: '2026-11-11 09:10:00'
+                }
+            ],
+            eventos: [
+                {
+                    id_evento: 1,
+                    nome_evento: 'Encontro Família & Alegria 2026',
+                    local: 'Pavilhão Kids - Sala Azul',
+                    data_inicio: '2026-11-12T08:30',
+                    data_fim: '2026-11-12T13:00'
+                },
+                {
+                    id_evento: 2,
+                    nome_evento: 'Oficina Criativa de Sábado',
+                    local: 'Espaço Laranja - 2º Andar',
+                    data_inicio: '2026-11-14T14:00',
+                    data_fim: '2026-11-14T18:00'
+                }
+            ],
+            presenca_espaco_kids: [
+                {
+                    id_presenca: 1,
+                    id_evento: 1,
+                    id_crianca: 1,
+                    id_responsavel_entrada: 1,
+                    id_responsavel_saida: null,
+                    data_hora_entrada: '2026-11-12 08:45:00',
+                    data_hora_saida: null,
+                    status: 'PRESENTE',
+                    pulseira_identificacao: 'P-101',
+                    observacoes_turno: 'Mochila azul com medicação identificada.'
+                },
+                {
+                    id_presenca: 2,
+                    id_evento: 1,
+                    id_crianca: 3,
+                    id_responsavel_entrada: 3,
+                    id_responsavel_saida: null,
+                    data_hora_entrada: '2026-11-12 09:00:00',
+                    data_hora_saida: null,
+                    status: 'PRESENTE',
+                    pulseira_identificacao: 'P-102',
+                    observacoes_turno: 'Chegou tranquilo com abafador de ouvidos.'
+                }
+            ]
+        };
+
+        let db = carregarBanco();
+
+        function carregarBanco() {
+            const salvo = localStorage.getItem(STORAGE_KEY);
+            if (salvo) {
+                try {
+                    return JSON.parse(salvo);
+                } catch (e) {
+                    console.error('Erro ao ler localStorage, restaurando padrão.', e);
+                }
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
+            return JSON.parse(JSON.stringify(DADOS_INICIAIS));
+        }
+
+        function salvarBanco() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+            atualizarTudo();
+        }
+
+        function resetarBancoDados() {
+            db = JSON.parse(JSON.stringify(DADOS_INICIAIS));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+            registrarSQL('RESTORE DATABASE', 'DROP DATABASE IF EXISTS kidsDB;\nCREATE DATABASE kidsDB;\nUSE kidsDB;\n-- Dados iniciais restaurados com sucesso.');
+            atualizarTudo();
+            mostrarToast('Banco de dados kidsDB restaurado para os dados iniciais!');
+        }
+
+        // ==========================================================================
+        // UTILITÁRIOS GERAIS
+        // ==========================================================================
+        function agoraSQL() {
+            const d = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        }
+
+        function calcularIdade(dataNasc) {
+            if (!dataNasc) return 0;
+            const hoje = new Date();
+            const nasc = new Date(dataNasc + 'T00:00:00');
+            let idade = hoje.getFullYear() - nasc.getFullYear();
+            const m = hoje.getMonth() - nasc.getMonth();
+            if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) {
+                idade--;
+            }
+            return idade < 0 ? 0 : idade;
+        }
+
+        function gerarHashSimulado(texto) {
+            let hash = 0;
+            const base = texto + Date.now() + Math.random();
+            for (let i = 0; i < base.length; i++) {
+                hash = ((hash << 5) - hash) + base.charCodeAt(i);
+                hash |= 0;
+            }
+            const hex1 = Math.abs(hash).toString(16).padStart(8, '0');
+            const hex2 = Math.random().toString(16).substring(2, 18);
+            const hex3 = Math.random().toString(16).substring(2, 18);
+            return (hex1 + hex2 + hex3).substring(0, 40);
+        }
+
+        function escaparSQL(str) {
+            if (str === null || str === undefined || str === '') return 'NULL';
+            return `'${String(str).replace(/'/g, "''")}'`;
+        }
+
+        function mostrarToast(mensagem) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = mensagem;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+
+        function registrarSQL(operacao, query) {
+            sqlLogs.unshift({
+                hora: new Date().toLocaleTimeString('pt-BR'),
+                operacao,
+                query
+            });
+            document.getElementById('sql-count').textContent = sqlLogs.length;
+            renderizarConsoleSQL();
+        }
+
+        function renderizarConsoleSQL() {
+            const el = document.getElementById('sql-console-log');
+            if (sqlLogs.length === 0) {
+                el.innerHTML = '<div style="color:#64748b;">Nenhuma query executada ainda. Interaja com o sistema para visualizar os comandos SQL.</div>';
+                return;
+            }
+            el.innerHTML = sqlLogs.map(log => `
+                <div class="sql-entry">
+                    <div class="sql-meta">[${log.hora}] ${log.operacao}</div>
+                    <div class="sql-code">${log.query}</div>
+                </div>
+            `).join('');
+        }
+
+        function limparConsoleSQL() {
+            sqlLogs = [];
+            document.getElementById('sql-count').textContent = '0';
+            renderizarConsoleSQL();
+        }
+
+        // ==========================================================================
+        // NAVEGAÇÃO POR ABAS
+        // ==========================================================================
+        function mudarAba(nomeAba, botao) {
+            document.querySelectorAll('.tab-content').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('aba-' + nomeAba).classList.add('active');
+            botao.classList.add('active');
+        }
+
+        // ==========================================================================
+        // RENDERIZAÇÃO DE INDICADORES E SELECTS
+        // ==========================================================================
+        function atualizarTudo() {
+            // Indicadores
+            const presentesCount = db.presenca_espaco_kids.filter(p => p.status === 'PRESENTE').length;
+            document.getElementById('stat-presentes').textContent = presentesCount;
+            document.getElementById('stat-criancas').textContent = db.criancas.length;
+            document.getElementById('stat-responsaveis').textContent = db.responsaveis.length;
+            document.getElementById('stat-eventos').textContent = db.eventos.length;
+
+            // Selects de Eventos
+            const optsEventos = db.eventos.map(ev => `<option value="${ev.id_evento}">${ev.nome_evento} (${ev.local || 'Sem local'})</option>`).join('');
+            const selCheckinEvento = document.getElementById('checkin-evento');
+            const selFiltroEvento = document.getElementById('filtro-evento-presenca');
+            const valFiltroAtual = selFiltroEvento.value;
+
+            selCheckinEvento.innerHTML = optsEventos;
+            selFiltroEvento.innerHTML = optsEventos;
+            if (valFiltroAtual && db.eventos.some(e => e.id_evento == valFiltroAtual)) {
+                selFiltroEvento.value = valFiltroAtual;
+            }
+
+            // Selects de Responsáveis
+            const optsResp = db.responsaveis.map(r => `<option value="${r.id_responsavel}">${r.nome} (${r.parentesco} - CPF: ${r.cpf})</option>`).join('');
+            document.getElementById('checkin-responsavel').innerHTML = optsResp;
+            document.getElementById('crianca-responsavel').innerHTML = optsResp;
+            document.getElementById('checkout-responsavel').innerHTML = optsResp;
+
+            // Select de Crianças
+            const optsCriancas = db.criancas.map(c => {
+                const resp = db.responsaveis.find(r => r.id_responsavel === c.id_responsavel_principal);
+                return `<option value="${c.id_crianca}">${c.nome} (${calcularIdade(c.data_nascimento)} anos) - Resp: ${resp ? resp.nome : 'N/A'}</option>`;
+            }).join('');
+            document.getElementById('checkin-crianca').innerHTML = optsCriancas;
+            autoSelecionarResponsavelCheckin();
+
+            // Renderizar Tabelas
+            renderizarTabelaPresentes(false);
+            renderizarTabelaResponsaveis();
+            renderizarTabelaCriancas();
+            renderizarTabelaEventos();
+            executarBuscaEmergencia(false);
+        }
+
+        function autoSelecionarResponsavelCheckin() {
+            const idCrianca = parseInt(document.getElementById('checkin-crianca').value);
+            const crianca = db.criancas.find(c => c.id_crianca === idCrianca);
+            if (crianca) {
+                document.getElementById('checkin-responsavel').value = crianca.id_responsavel_principal;
+            }
+        }
+
+        // ==========================================================================
+        // ABA 1: EMERGÊNCIA (CONSULTA 1) & CHECK-IN / CHECK-OUT (CONSULTA 2)
+        // ==========================================================================
+        function executarBuscaEmergencia(logarSQL = false) {
+            const termo = document.getElementById('busca-emergencia').value.trim();
+            const container = document.getElementById('resultado-emergencia');
+
+            if (!termo) {
+                container.innerHTML = '<div style="font-size:0.85rem; color:var(--texto-suave);">Digite o nome de uma criança presente ou o número da pulseira para acionar o protocolo de emergência.</div>';
+                return;
+            }
+
+            const termoLower = termo.toLowerCase();
+
+            // Implementação exata da CONSULTA 1
+            const resultados = db.presenca_espaco_kids
+                .filter(p => p.status === 'PRESENTE')
+                .map(p => {
+                    const c = db.criancas.find(item => item.id_crianca === p.id_crianca);
+                    const r = db.responsaveis.find(item => item.id_responsavel === c.id_responsavel_principal);
+                    return { p, c, r };
+                })
+                .filter(({ p, c }) =>
+                    c.nome.toLowerCase().includes(termoLower) ||
+                    (p.pulseira_identificacao && p.pulseira_identificacao.toLowerCase() === termoLower)
+                );
+
+            if (logarSQL) {
+                const sql = `SELECT 
+    c.nome AS nome_crianca,
+    TIMESTAMPDIFF(YEAR, c.data_nascimento, CURDATE()) AS idade,
+    c.alergias,
+    c.necessidades_especiais,
+    c.observacoes_medicas,
+    r.nome AS nome_responsavel,
+    r.telefone,
+    p.pulseira_identificacao
+FROM presenca_espaco_kids p
+JOIN criancas c ON p.id_crianca = c.id_crianca
+JOIN responsaveis r ON c.id_responsavel_principal = r.id_responsavel
+WHERE (c.nome LIKE '%${termo}%' OR p.pulseira_identificacao = '${termo}')
+  AND p.status = 'PRESENTE';`;
+                registrarSQL('CONSULTA 1 (EMERGÊNCIA)', sql);
+            }
+
+            if (resultados.length === 0) {
+                container.innerHTML = `<div style="padding:10px; background:#fff; border:1px dashed var(--borda); border-radius:6px; font-size:0.88rem;">Nenhuma criança com status <strong>PRESENTE</strong> encontrada para "<em>${termo}</em>".</div>`;
+                return;
+            }
+
+            container.innerHTML = resultados.map(({ p, c, r }) => `
+                <div class="alerta-box">
+                    <h4>
+                        <span>🚨 ${c.nome} (${calcularIdade(c.data_nascimento)} anos)</span>
+                        <span class="badge badge-laranja">Pulseira: ${p.pulseira_identificacao}</span>
+                    </h4>
+                    <div class="alerta-item"><strong>Tipo Sanguíneo:</strong> <span class="badge badge-alerta">${c.tipo_sanguineo || 'Não informado'}</span></div>
+                    <div class="alerta-item"><strong>Responsável Principal:</strong> ${r.nome} (${r.parentesco})</div>
+                    <div class="alerta-item"><strong>Telefone Emergência:</strong> <span style="font-size:1rem; font-weight:bold; color:var(--azul-primario);">${r.telefone}</span></div>
+                    <div class="alerta-destaque">⚠️ Alergias: ${c.alergias || 'Nenhuma registrada'}</div>
+                    <div class="alerta-item" style="margin-top:6px;"><strong>Necessidades Especiais:</strong> ${c.necessidades_especiais || 'Nenhuma'}</div>
+                    <div class="alerta-item"><strong>Obs. Médicas:</strong> ${c.observacoes_medicas || 'Nenhuma'}</div>
+                </div>
+            `).join('');
+        }
+
+        function registrarCheckin(event) {
+            event.preventDefault();
+            const id_evento = parseInt(document.getElementById('checkin-evento').value);
+            const id_crianca = parseInt(document.getElementById('checkin-crianca').value);
+            const id_responsavel_entrada = parseInt(document.getElementById('checkin-responsavel').value);
+            const pulseira_identificacao = document.getElementById('checkin-pulseira').value.trim().toUpperCase();
+            const observacoes_turno = document.getElementById('checkin-obs').value.trim();
+
+            // Verifica se a criança já está presente no mesmo evento
+            const jaPresente = db.presenca_espaco_kids.some(
+                p => p.id_evento === id_evento && p.id_crianca === id_crianca && p.status === 'PRESENTE'
+            );
+
+            if (jaPresente) {
+                mostrarToast('Atenção: Esta criança já está com status PRESENTE neste evento!');
+                return;
+            }
+
+            const novoId = db.presenca_espaco_kids.length > 0
+                ? Math.max(...db.presenca_espaco_kids.map(p => p.id_presenca)) + 1
+                : 1;
+            const data_hora_entrada = agoraSQL();
+
+            const novoRegistro = {
+                id_presenca: novoId,
+                id_evento,
+                id_crianca,
+                id_responsavel_entrada,
+                id_responsavel_saida: null,
+                data_hora_entrada,
+                data_hora_saida: null,
+                status: 'PRESENTE',
+                pulseira_identificacao,
+                observacoes_turno
+            };
+
+            db.presenca_espaco_kids.push(novoRegistro);
+
+            const sql = `INSERT INTO presenca_espaco_kids (id_evento, id_crianca, id_responsavel_entrada, data_hora_entrada, status, pulseira_identificacao, observacoes_turno)
+VALUES (${id_evento}, ${id_crianca}, ${id_responsavel_entrada}, '${data_hora_entrada}', 'PRESENTE', ${escaparSQL(pulseira_identificacao)}, ${escaparSQL(observacoes_turno)});`;
+            registrarSQL('INSERT CHECK-IN', sql);
+
+            document.getElementById('checkin-pulseira').value = '';
+            document.getElementById('checkin-obs').value = '';
+            document.getElementById('filtro-evento-presenca').value = id_evento;
+
+            salvarBanco();
+            mostrarToast(`Check-in realizado! Pulseira ${pulseira_identificacao} vinculada.`);
+        }
+
+        function renderizarTabelaPresentes(logarSQL = false) {
+            const idEvento = parseInt(document.getElementById('filtro-evento-presenca').value);
+            const tbody = document.getElementById('tbody-presentes');
+
+            if (!idEvento) {
+                tbody.innerHTML = '<tr><td colspan="7">Nenhum evento selecionado.</td></tr>';
+                return;
+            }
+
+            // Implementação exata da CONSULTA 2
+            const presentes = db.presenca_espaco_kids
+                .filter(p => p.id_evento === idEvento && p.status === 'PRESENTE')
+                .sort((a, b) => b.data_hora_entrada.localeCompare(a.data_hora_entrada));
+
+            if (logarSQL) {
+                const sql = `SELECT 
+    c.nome AS crianca,
+    r.nome AS responsavel,
+    r.telefone,
+    p.pulseira_identificacao,
+    p.data_hora_entrada
+FROM presenca_espaco_kids p
+JOIN criancas c ON p.id_crianca = c.id_crianca
+JOIN responsaveis r ON c.id_responsavel_principal = r.id_responsavel
+WHERE p.id_evento = ${idEvento} 
+  AND p.status = 'PRESENTE'
+ORDER BY p.data_hora_entrada DESC;`;
+                registrarSQL('CONSULTA 2 (LISTA PRESENTES)', sql);
+            }
+
+            document.getElementById('badge-total-evento').textContent = `${presentes.length} presente(s)`;
+
+            if (presentes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--texto-suave); padding:20px;">Nenhuma criança presente neste evento no momento.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = presentes.map(p => {
+                const c = db.criancas.find(item => item.id_crianca === p.id_crianca);
+                const rEntrada = db.responsaveis.find(item => item.id_responsavel === p.id_responsavel_entrada);
+                const temAlerta = (c.alergias && c.alergias.toLowerCase() !== 'nenhuma') ||
+                                  (c.necessidades_especiais && c.necessidades_especiais.toLowerCase() !== 'nenhuma');
+
+                return `
+                    <tr>
+                        <td><span class="badge badge-laranja">${p.pulseira_identificacao}</span></td>
+                        <td>
+                            <strong>${c.nome}</strong><br>
+                            <small style="color:var(--texto-suave);">${calcularIdade(c.data_nascimento)} anos • Sangue: ${c.tipo_sanguineo || 'N/I'}</small>
+                        </td>
+                        <td>
+                            ${temAlerta
+                                ? `<span class="badge badge-alerta">⚠️ ${c.alergias || c.necessidades_especiais}</span>`
+                                : `<span class="badge badge-sucesso">Sem restrições</span>`
+                            }
+                        </td>
+                        <td>${rEntrada ? rEntrada.nome : 'N/A'}</td>
+                        <td>${rEntrada ? rEntrada.telefone : 'N/A'}</td>
+                        <td>${p.data_hora_entrada}</td>
+                        <td>
+                            <button class="btn btn-azul btn-sm" onclick="abrirModalCheckout(${p.id_presenca})">🚪 Check-out</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function abrirModalCheckout(idPresenca) {
+            const presenca = db.presenca_espaco_kids.find(p => p.id_presenca === idPresenca);
+            if (!presenca) return;
+            const crianca = db.criancas.find(c => c.id_crianca === presenca.id_crianca);
+
+            document.getElementById('checkout-id-presenca').value = idPresenca;
+            document.getElementById('checkout-info-crianca').innerHTML = `
+                <strong>Criança:</strong> ${crianca.nome}<br>
+                <strong>Pulseira:</strong> ${presenca.pulseira_identificacao} | <strong>Entrada:</strong> ${presenca.data_hora_entrada}
+            `;
+            document.getElementById('checkout-responsavel').value = presenca.id_responsavel_entrada;
+            document.getElementById('checkout-obs').value = '';
+            document.getElementById('modal-checkout').classList.add('open');
+        }
+
+        function fecharModalCheckout() {
+            document.getElementById('modal-checkout').classList.remove('open');
+        }
+
+        function confirmarCheckout() {
+            const idPresenca = parseInt(document.getElementById('checkout-id-presenca').value);
+            const idRespSaida = parseInt(document.getElementById('checkout-responsavel').value);
+            const obsSaida = document.getElementById('checkout-obs').value.trim();
+
+            const presenca = db.presenca_espaco_kids.find(p => p.id_presenca === idPresenca);
+            if (!presenca) return;
+
+            const dataSaida = agoraSQL();
+            presenca.id_responsavel_saida = idRespSaida;
+            presenca.data_hora_saida = dataSaida;
+            presenca.status = 'AUSENTE';
+            if (obsSaida) {
+                presenca.observacoes_turno = (presenca.observacoes_turno ? presenca.observacoes_turno + ' | Saída: ' : 'Saída: ') + obsSaida;
+            }
+
+            const sql = `UPDATE presenca_espaco_kids
+SET id_responsavel_saida = ${idRespSaida},
+    data_hora_saida = '${dataSaida}',
+    status = 'AUSENTE',
+    observacoes_turno = ${escaparSQL(presenca.observacoes_turno)}
+WHERE id_presenca = ${idPresenca};`;
+            registrarSQL('UPDATE CHECK-OUT', sql);
+
+            fecharModalCheckout();
+            salvarBanco();
+            mostrarToast('Check-out registrado com sucesso! Status alterado para AUSENTE.');
+        }
+
+        // ==========================================================================
+        // ABA 2: RESPONSÁVEIS, E-MAILS (1FN) E TERMOS DE ADESÃO
+        // ==========================================================================
+        function adicionarCampoEmail() {
+            const container = document.getElementById('lista-inputs-emails');
+            const row = document.createElement('div');
+            row.className = 'email-item-row';
+            row.innerHTML = `
+                <input type="email" class="input-email-resp" placeholder="outro@email.com" required>
+                <button type="button" class="btn btn-outline btn-sm" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function alternarHashTermo() {
+            const tipo = document.getElementById('termo-tipo').value;
+            const grupoHash = document.getElementById('grupo-hash');
+            const inputHash = document.getElementById('termo-hash');
+
+            if (tipo === 'DIGITAL') {
+                grupoHash.style.display = 'block';
+                inputHash.value = gerarHashSimulado(document.getElementById('resp-cpf').value || 'termo');
+            } else {
+                grupoHash.style.display = 'none';
+                inputHash.value = '';
+            }
+        }
+
+        function cadastrarResponsavel(event) {
+            event.preventDefault();
+            const cpf = document.getElementById('resp-cpf').value.trim();
+
+            if (db.responsaveis.some(r => r.cpf === cpf)) {
+                mostrarToast('Erro: Já existe um responsável cadastrado com este CPF (UNIQUE).');
+                return;
+            }
+
+            const novoIdResp = db.responsaveis.length > 0
+                ? Math.max(...db.responsaveis.map(r => r.id_responsavel)) + 1
+                : 1;
+
+            const novoResp = {
+                id_responsavel: novoIdResp,
+                nome: document.getElementById('resp-nome').value.trim(),
+                cpf,
+                telefone: document.getElementById('resp-telefone').value.trim(),
+                parentesco: document.getElementById('resp-parentesco').value,
+                logradouro: document.getElementById('resp-logradouro').value.trim(),
+                numero: document.getElementById('resp-numero').value.trim(),
+                bairro: document.getElementById('resp-bairro').value.trim(),
+                cidade: document.getElementById('resp-cidade').value.trim(),
+                uf: document.getElementById('resp-uf').value.trim().toUpperCase(),
+                cep: document.getElementById('resp-cep').value.trim(),
+                criado_em: agoraSQL()
+            };
+
+            db.responsaveis.push(novoResp);
+
+            // Inserir E-mails (1FN Multivalorado)
+            const inputsEmails = Array.from(document.querySelectorAll('.input-email-resp'));
+            const emailsValidos = inputsEmails.map(i => i.value.trim()).filter(Boolean);
+            let sqlEmails = '';
+
+            emailsValidos.forEach(email => {
+                const novoIdEmail = db.responsaveis_emails.length > 0
+                    ? Math.max(...db.responsaveis_emails.map(e => e.id_email)) + 1
+                    : 1;
+                db.responsaveis_emails.push({
+                    id_email: novoIdEmail,
+                    id_responsavel: novoIdResp,
+                    email
+                });
+                sqlEmails += `\nINSERT INTO responsaveis_emails (id_responsavel, email) VALUES (${novoIdResp}, ${escaparSQL(email)});`;
+            });
+
+            // Inserir Termo de Adesão
+            const tipoAssinatura = document.getElementById('termo-tipo').value;
+            const hashDigital = tipoAssinatura === 'DIGITAL' ? gerarHashSimulado(cpf) : null;
+            const termoAceito = document.getElementById('termo-aceito').checked;
+            const novoIdTermo = db.termos_adesao.length > 0
+                ? Math.max(...db.termos_adesao.map(t => t.id_termo)) + 1
+                : 1;
+
+            db.termos_adesao.push({
+                id_termo: novoIdTermo,
+                id_responsavel: novoIdResp,
+                tipo_assinatura: tipoAssinatura,
+                hash_assinatura_digital: hashDigital,
+                termo_aceito: termoAceito,
+                data_assinatura: agoraSQL()
+            });
+
+            const sqlCompleto = `-- 1. Inserção na tabela responsaveis
+INSERT INTO responsaveis (nome, cpf, telefone, parentesco, logradouro, numero, bairro, cidade, uf, cep)
+VALUES (${escaparSQL(novoResp.nome)}, ${escaparSQL(novoResp.cpf)}, ${escaparSQL(novoResp.telefone)}, ${escaparSQL(novoResp.parentesco)}, ${escaparSQL(novoResp.logradouro)}, ${escaparSQL(novoResp.numero)}, ${escaparSQL(novoResp.bairro)}, ${escaparSQL(novoResp.cidade)}, ${escaparSQL(novoResp.uf)}, ${escaparSQL(novoResp.cep)});
+-- 2. Inserção dos e-mails (1FN)${sqlEmails}
+-- 3. Registro do termo de adesão
+INSERT INTO termos_adesao (id_responsavel, tipo_assinatura, hash_assinatura_digital, termo_aceito)
+VALUES (${novoIdResp}, '${tipoAssinatura}', ${escaparSQL(hashDigital)}, ${termoAceito ? 'TRUE' : 'FALSE'});`;
+
+            registrarSQL('INSERT RESPONSÁVEL + E-MAILS + TERMO', sqlCompleto);
+
+            document.getElementById('form-responsavel').reset();
+            document.getElementById('lista-inputs-emails').innerHTML = `
+                <div class="email-item-row">
+                    <input type="email" class="input-email-resp" placeholder="principal@email.com" required>
+                </div>
+            `;
+            alternarHashTermo();
+            salvarBanco();
+            mostrarToast('Responsável, e-mails e termo cadastrados com sucesso!');
+        }
+
+        function renderizarTabelaResponsaveis() {
+            const tbody = document.getElementById('tbody-responsaveis');
+            tbody.innerHTML = db.responsaveis.map(r => {
+                const emails = db.responsaveis_emails.filter(e => e.id_responsavel === r.id_responsavel);
+                const termo = db.termos_adesao.find(t => t.id_responsavel === r.id_responsavel);
+                const enderecoFormatado = [r.logradouro, r.numero, r.bairro, r.cidade ? `${r.cidade}/${r.uf}` : '']
+                    .filter(Boolean).join(', ') || 'Não informado';
+
+                return `
+                    <tr>
+                        <td>#${r.id_responsavel}</td>
+                        <td><strong>${r.nome}</strong><br><span class="badge badge-azul">${r.parentesco}</span></td>
+                        <td>${r.cpf}</td>
+                        <td>${r.telefone}</td>
+                        <td>${emails.map(e => `<div>📧 ${e.email}</div>`).join('')}</td>
+                        <td><small>${enderecoFormatado}</small></td>
+                        <td>
+                            ${termo ? `
+                                <span class="badge badge-sucesso">✔ ${termo.tipo_assinatura}</span>
+                                ${termo.hash_assinatura_digital ? `<br><small style="font-family:monospace; color:var(--texto-suave);">Hash: ${termo.hash_assinatura_digital.substring(0, 12)}...</small>` : ''}
+                            ` : '<span class="badge badge-alerta">Pendente</span>'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==========================================================================
+        // ABA 3: CRIANÇAS
+        // ==========================================================================
+        function cadastrarCrianca(event) {
+            event.preventDefault();
+            const novoId = db.criancas.length > 0
+                ? Math.max(...db.criancas.map(c => c.id_crianca)) + 1
+                : 1;
+
+            const novaCrianca = {
+                id_crianca: novoId,
+                id_responsavel_principal: parseInt(document.getElementById('crianca-responsavel').value),
+                nome: document.getElementById('crianca-nome').value.trim(),
+                data_nascimento: document.getElementById('crianca-nascimento').value,
+                tipo_sanguineo: document.getElementById('crianca-sangue').value,
+                alergias: document.getElementById('crianca-alergias').value.trim(),
+                necessidades_especiais: document.getElementById('crianca-necessidades').value.trim(),
+                observacoes_medicas: document.getElementById('crianca-obs').value.trim(),
+                criado_em: agoraSQL()
+            };
+
+            db.criancas.push(novaCrianca);
+
+            const sql = `INSERT INTO criancas (id_responsavel_principal, nome, data_nascimento, tipo_sanguineo, alergias, necessidades_especiais, observacoes_medicas)
+VALUES (${novaCrianca.id_responsavel_principal}, ${escaparSQL(novaCrianca.nome)}, '${novaCrianca.data_nascimento}', ${escaparSQL(novaCrianca.tipo_sanguineo)}, ${escaparSQL(novaCrianca.alergias)}, ${escaparSQL(novaCrianca.necessidades_especiais)}, ${escaparSQL(novaCrianca.observacoes_medicas)});`;
+            registrarSQL('INSERT CRIANÇA', sql);
+
+            document.getElementById('form-crianca').reset();
+            salvarBanco();
+            mostrarToast(`Criança "${novaCrianca.nome}" cadastrada!`);
+        }
+
+        function renderizarTabelaCriancas() {
+            const tbody = document.getElementById('tbody-criancas');
+            tbody.innerHTML = db.criancas.map(c => {
+                const resp = db.responsaveis.find(r => r.id_responsavel === c.id_responsavel_principal);
+                return `
+                    <tr>
+                        <td>#${c.id_crianca}</td>
+                        <td><strong>${c.nome}</strong></td>
+                        <td>${calcularIdade(c.data_nascimento)} anos <br><small style="color:var(--texto-suave);">(${c.data_nascimento})</small></td>
+                        <td><span class="badge badge-laranja">${c.tipo_sanguineo || 'N/I'}</span></td>
+                        <td>${resp ? `${resp.nome} (${resp.telefone})` : 'N/A'}</td>
+                        <td>
+                            ${c.alergias ? `<div><span class="badge badge-alerta">Alergia:</span> ${c.alergias}</div>` : ''}
+                            ${c.necessidades_especiais ? `<div><span class="badge badge-azul">Nec. Esp.:</span> ${c.necessidades_especiais}</div>` : ''}
+                            ${c.observacoes_medicas ? `<small style="color:var(--texto-suave);">${c.observacoes_medicas}</small>` : ''}
+                            ${!c.alergias && !c.necessidades_especiais && !c.observacoes_medicas ? '<span style="color:var(--texto-suave);">Nenhuma observação</span>' : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==========================================================================
+        // ABA 4: EVENTOS
+        // ==========================================================================
+        function cadastrarEvento(event) {
+            event.preventDefault();
+            const novoId = db.eventos.length > 0
+                ? Math.max(...db.eventos.map(e => e.id_evento)) + 1
+                : 1;
+
+            const novoEvento = {
+                id_evento: novoId,
+                nome_evento: document.getElementById('evento-nome').value.trim(),
+                local: document.getElementById('evento-local').value.trim(),
+                data_inicio: document.getElementById('evento-inicio').value,
+                data_fim: document.getElementById('evento-fim').value
+            };
+
+            db.eventos.push(novoEvento);
+
+            const sql = `INSERT INTO eventos (nome_evento, local, data_inicio, data_fim)
+VALUES (${escaparSQL(novoEvento.nome_evento)}, ${escaparSQL(novoEvento.local)}, '${novoEvento.data_inicio.replace('T', ' ')}:00', '${novoEvento.data_fim.replace('T', ' ')}:00');`;
+            registrarSQL('INSERT EVENTO', sql);
+
+            document.getElementById('form-evento').reset();
+            salvarBanco();
+            mostrarToast(`Evento "${novoEvento.nome_evento}" criado com sucesso!`);
+        }
+
+        function renderizarTabelaEventos() {
+            const tbody = document.getElementById('tbody-eventos');
+            tbody.innerHTML = db.eventos.map(ev => `
+                <tr>
+                    <td>#${ev.id_evento}</td>
+                    <td><strong>${ev.nome_evento}</strong></td>
+                    <td>${ev.local || 'Não definido'}</td>
+                    <td>${ev.data_inicio.replace('T', ' ')}</td>
+                    <td>${ev.data_fim.replace('T', ' ')}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ==========================================================================
+        // EXPORTAÇÃO DO DUMP SQL COMPLETO DO ESTADO ATUAL
+        // ==========================================================================
+        function exportarDumpSQL() {
+            let dump = `-- DUMP SQL GERADO PELO SISTEMA ESPAÇO KIDS (kidsDB)\n-- Data: ${agoraSQL()}\nUSE kidsDB;\n\n`;
+
+            dump += `-- RESPONSÁVEIS\n`;
+            db.responsaveis.forEach(r => {
+                dump += `INSERT INTO responsaveis (id_responsavel, nome, cpf, telefone, parentesco, logradouro, numero, bairro, cidade, uf, cep) VALUES (${r.id_responsavel}, ${escaparSQL(r.nome)}, ${escaparSQL(r.cpf)}, ${escaparSQL(r.telefone)}, ${escaparSQL(r.parentesco)}, ${escaparSQL(r.logradouro)}, ${escaparSQL(r.numero)}, ${escaparSQL(r.bairro)}, ${escaparSQL(r.cidade)}, ${escaparSQL(r.uf)}, ${escaparSQL(r.cep)});\n`;
+            });
+
+            dump += `\n-- E-MAILS DOS RESPONSÁVEIS\n`;
+            db.responsaveis_emails.forEach(e => {
+                dump += `INSERT INTO responsaveis_emails (id_email, id_responsavel, email) VALUES (${e.id_email}, ${e.id_responsavel}, ${escaparSQL(e.email)});\n`;
+            });
+
+            dump += `\n-- TERMOS DE ADESÃO\n`;
+            db.termos_adesao.forEach(t => {
+                dump += `INSERT INTO termos_adesao (id_termo, id_responsavel, tipo_assinatura, hash_assinatura_digital, termo_aceito) VALUES (${t.id_termo}, ${t.id_responsavel}, '${t.tipo_assinatura}', ${escaparSQL(t.hash_assinatura_digital)}, ${t.termo_aceito ? 'TRUE' : 'FALSE'});\n`;
+            });
+
+            dump += `\n-- CRIANÇAS\n`;
+            db.criancas.forEach(c => {
+                dump += `INSERT INTO criancas (id_crianca, id_responsavel_principal, nome, data_nascimento, tipo_sanguineo, alergias, necessidades_especiais, observacoes_medicas) VALUES (${c.id_crianca}, ${c.id_responsavel_principal}, ${escaparSQL(c.nome)}, '${c.data_nascimento}', ${escaparSQL(c.tipo_sanguineo)}, ${escaparSQL(c.alergias)}, ${escaparSQL(c.necessidades_especiais)}, ${escaparSQL(c.observacoes_medicas)});\n`;
+            });
+
+            dump += `\n-- EVENTOS\n`;
+            db.eventos.forEach(ev => {
+                dump += `INSERT INTO eventos (id_evento, nome_evento, local, data_inicio, data_fim) VALUES (${ev.id_evento}, ${escaparSQL(ev.nome_evento)}, ${escaparSQL(ev.local)}, '${ev.data_inicio.replace('T', ' ')}:00', '${ev.data_fim.replace('T', ' ')}:00');\n`;
+            });
+
+            dump += `\n-- PRESENÇA ESPAÇO KIDS\n`;
+            db.presenca_espaco_kids.forEach(p => {
+                dump += `INSERT INTO presenca_espaco_kids (id_presenca, id_evento, id_crianca, id_responsavel_entrada, id_responsavel_saida, data_hora_entrada, data_hora_saida, status, pulseira_identificacao, observacoes_turno) VALUES (${p.id_presenca}, ${p.id_evento}, ${p.id_crianca}, ${p.id_responsavel_entrada}, ${p.id_responsavel_saida || 'NULL'}, '${p.data_hora_entrada}', ${escaparSQL(p.data_hora_saida)}, '${p.status}', ${escaparSQL(p.pulseira_identificacao)}, ${escaparSQL(p.observacoes_turno)});\n`;
+            });
+
+            const blob = new Blob([dump], { type: 'text/sql;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kidsDB_dump_${Date.now()}.sql`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            registrarSQL('EXPORT DUMP SQL', '-- Arquivo .sql gerado e baixado com todos os registros atuais.');
+            mostrarToast('Arquivo SQL exportado com sucesso!');
+        }
+
+        // Inicialização ao carregar a página
+        window.onload = function () {
+            alternarHashTermo();
+            atualizarTudo();
+            registrarSQL('USE kidsDB', '-- Sistema conectado ao esquema relacional kidsDB (simulação localStorage).');
+        };
+    </script>
+</body>
+</html>
