@@ -552,14 +552,14 @@
         <div class="header-container">
             <div class="logo-area">
                 <h1>
-                    <span>🧸 Espaço Kids</span>
+                    <span> Espaço Kids</span>
                     <span class="logo-badge">kidsDB v1.0</span>
                 </h1>
                 <p>Sistema Integrado de Controle de Frequência, Segurança e Emergência Infantil</p>
             </div>
             <div class="header-actions">
-                <button class="btn btn-laranja btn-sm" onclick="exportarDumpSQL()">💾 Exportar Dump SQL</button>
-                <button class="btn btn-outline-light btn-sm" onclick="resetarBancoDados()">🔄 Restaurar Dados Iniciais</button>
+                <button class="btn btn-laranja btn-sm" onclick="exportarDumpSQL()"> Exportar Dump SQL</button>
+                <button class="btn btn-outline-light btn-sm" onclick="resetarBancoDados()"> Restaurar Dados Iniciais</button>
             </div>
         </div>
     </header>
@@ -567,11 +567,11 @@
     <!-- NAVEGAÇÃO POR ABAS -->
     <nav class="tabs">
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="mudarAba('frequencia', this)">📋 Frequência & Emergência</button>
-            <button class="tab-btn" onclick="mudarAba('responsaveis', this)">👨‍👩‍👧 Responsáveis & Termos</button>
-            <button class="tab-btn" onclick="mudarAba('criancas', this)">🧒 Crianças</button>
-            <button class="tab-btn" onclick="mudarAba('eventos', this)">📅 Eventos</button>
-            <button class="tab-btn" onclick="mudarAba('console', this)">💻 Console SQL (<span id="sql-count">0</span>)</button>
+            <button class="tab-btn active" onclick="mudarAba('frequencia', this)"> Frequência & Emergência</button>
+            <button class="tab-btn" onclick="mudarAba('responsaveis', this)"> Responsáveis & Termos</button>
+            <button class="tab-btn" onclick="mudarAba('criancas', this)"> Crianças</button>
+            <button class="tab-btn" onclick="mudarAba('eventos', this)"> Eventos</button>
+            <button class="tab-btn" onclick="mudarAba('console', this)"> Console SQL (<span id="sql-count">0</span>)</button>
         </div>
     </nav>
 
@@ -605,7 +605,7 @@
             <!-- CONSULTA 1: BUSCA RÁPIDA DE EMERGÊNCIA -->
             <div class="card card-emergencia">
                 <div class="card-header">
-                    <h2 class="card-title" style="color: var(--laranja-hover);">🚨 Busca Rápida em Casos de Emergência (CONSULTA 1)</h2>
+                    <h2 class="card-title" style="color: var(--laranja-hover);"> Busca Rápida em Casos de Emergência (CONSULTA 1)</h2>
                     <span class="badge badge-laranja">Status = 'PRESENTE'</span>
                 </div>
                 <div class="form-row">
@@ -624,7 +624,7 @@
                 <!-- FORMULÁRIO DE CHECK-IN -->
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">✅ Realizar Check-in (Entrada)</h2>
+                        <h2 class="card-title"> Realizar Check-in (Entrada)</h2>
                         <span class="badge badge-azul">presenca_espaco_kids</span>
                     </div>
                     <form id="form-checkin" onsubmit="registrarCheckin(event)">
@@ -657,7 +657,7 @@
                 <!-- RESUMO DO EVENTO SELECIONADO -->
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">📌 Filtro de Frequência por Evento</h2>
+                        <h2 class="card-title"> Filtro de Frequência por Evento</h2>
                         <span class="badge badge-azul">CONSULTA 2</span>
                     </div>
                     <div class="form-group">
@@ -676,7 +676,7 @@
             <!-- LISTA DE CRIANÇAS PRESENTES NO EVENTO -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">🧒 Crianças Presentes no Evento</h2>
+                    <h2 class="card-title"> Crianças Presentes no Evento</h2>
                     <span class="badge badge-sucesso" id="badge-total-evento">0 presentes</span>
                 </div>
                 <div class="table-responsive">
@@ -704,7 +704,7 @@
         <section id="aba-responsaveis" class="tab-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">👨‍👩‍👧 Cadastro de Responsável & Termo de Adesão</h2>
+                    <h2 class="card-title"> Cadastro de Responsável & Termo de Adesão</h2>
                     <span class="badge badge-azul">1FN: Endereço Composto + E-mails Multivalorados</span>
                 </div>
                 <form id="form-responsavel" onsubmit="cadastrarResponsavel(event)">
@@ -808,7 +808,7 @@
             <!-- LISTAGEM DE RESPONSÁVEIS -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">📑 Responsáveis Cadastrados</h2>
+                    <h2 class="card-title"> Responsáveis Cadastrados</h2>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -835,7 +835,7 @@
         <section id="aba-criancas" class="tab-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">🧒 Cadastro de Criança</h2>
+                    <h2 class="card-title"> Cadastro de Criança</h2>
                     <span class="badge badge-azul">Tabela: criancas</span>
                 </div>
                 <form id="form-crianca" onsubmit="cadastrarCrianca(event)">
@@ -913,7 +913,7 @@
         <section id="aba-eventos" class="tab-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">📅 Cadastro de Evento</h2>
+                    <h2 class="card-title"> Cadastro de Evento</h2>
                     <span class="badge badge-azul">Tabela: eventos</span>
                 </div>
                 <form id="form-evento" onsubmit="cadastrarEvento(event)">
@@ -941,7 +941,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">🗓️ Eventos Cadastrados</h2>
+                    <h2 class="card-title"> Eventos Cadastrados</h2>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -966,7 +966,7 @@
         <section id="aba-console" class="tab-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">💻 Histórico de Comandos SQL Executados (kidsDB)</h2>
+                    <h2 class="card-title"> Histórico de Comandos SQL Executados (kidsDB)</h2>
                     <button class="btn btn-outline btn-sm" onclick="limparConsoleSQL()">Limpar Log</button>
                 </div>
                 <p style="font-size:0.88rem; color: var(--texto-suave); margin-bottom: 12px;">
@@ -980,7 +980,7 @@
     <!-- MODAL DE CHECK-OUT -->
     <div class="modal-backdrop" id="modal-checkout">
         <div class="modal-box">
-            <h3 style="color: var(--azul-primario); margin-bottom: 10px;">🚪 Confirmar Check-out (Saída)</h3>
+            <h3 style="color: var(--azul-primario); margin-bottom: 10px;"> Confirmar Check-out (Saída)</h3>
             <p id="checkout-info-crianca" style="font-size: 0.92rem; margin-bottom: 14px; background: var(--azul-claro); padding: 10px; border-radius: 6px;"></p>
             <input type="hidden" id="checkout-id-presenca">
             <div class="form-group">
@@ -1389,13 +1389,13 @@ WHERE (c.nome LIKE '%${termo}%' OR p.pulseira_identificacao = '${termo}')
             container.innerHTML = resultados.map(({ p, c, r }) => `
                 <div class="alerta-box">
                     <h4>
-                        <span>🚨 ${c.nome} (${calcularIdade(c.data_nascimento)} anos)</span>
+                        <span> ${c.nome} (${calcularIdade(c.data_nascimento)} anos)</span>
                         <span class="badge badge-laranja">Pulseira: ${p.pulseira_identificacao}</span>
                     </h4>
                     <div class="alerta-item"><strong>Tipo Sanguíneo:</strong> <span class="badge badge-alerta">${c.tipo_sanguineo || 'Não informado'}</span></div>
                     <div class="alerta-item"><strong>Responsável Principal:</strong> ${r.nome} (${r.parentesco})</div>
                     <div class="alerta-item"><strong>Telefone Emergência:</strong> <span style="font-size:1rem; font-weight:bold; color:var(--azul-primario);">${r.telefone}</span></div>
-                    <div class="alerta-destaque">⚠️ Alergias: ${c.alergias || 'Nenhuma registrada'}</div>
+                    <div class="alerta-destaque"> Alergias: ${c.alergias || 'Nenhuma registrada'}</div>
                     <div class="alerta-item" style="margin-top:6px;"><strong>Necessidades Especiais:</strong> ${c.necessidades_especiais || 'Nenhuma'}</div>
                     <div class="alerta-item"><strong>Obs. Médicas:</strong> ${c.observacoes_medicas || 'Nenhuma'}</div>
                 </div>
@@ -1504,7 +1504,7 @@ ORDER BY p.data_hora_entrada DESC;`;
                         </td>
                         <td>
                             ${temAlerta
-                                ? `<span class="badge badge-alerta">⚠️ ${c.alergias || c.necessidades_especiais}</span>`
+                                ? `<span class="badge badge-alerta"> ${c.alergias || c.necessidades_especiais}</span>`
                                 : `<span class="badge badge-sucesso">Sem restrições</span>`
                             }
                         </td>
@@ -1512,7 +1512,7 @@ ORDER BY p.data_hora_entrada DESC;`;
                         <td>${rEntrada ? rEntrada.telefone : 'N/A'}</td>
                         <td>${p.data_hora_entrada}</td>
                         <td>
-                            <button class="btn btn-azul btn-sm" onclick="abrirModalCheckout(${p.id_presenca})">🚪 Check-out</button>
+                            <button class="btn btn-azul btn-sm" onclick="abrirModalCheckout(${p.id_presenca})"> Check-out</button>
                         </td>
                     </tr>
                 `;
@@ -1694,7 +1694,7 @@ VALUES (${novoIdResp}, '${tipoAssinatura}', ${escaparSQL(hashDigital)}, ${termoA
                         <td><strong>${r.nome}</strong><br><span class="badge badge-azul">${r.parentesco}</span></td>
                         <td>${r.cpf}</td>
                         <td>${r.telefone}</td>
-                        <td>${emails.map(e => `<div>📧 ${e.email}</div>`).join('')}</td>
+                        <td>${emails.map(e => `<div> ${e.email}</div>`).join('')}</td>
                         <td><small>${enderecoFormatado}</small></td>
                         <td>
                             ${termo ? `
