@@ -32,6 +32,7 @@ CREATE TABLE responsaveis_emails (
 );
 
 -- 2. TABELA DE TERMOS DE RESPONSABILIDADE
+--OBS: essa área é apenas para registrar que o termo foi assinado fisicamente, e assim regisitrar data e hora para que o documento impresso possa ser localizado facilmente.
 CREATE TABLE termos_adesao (
     id_termo INT AUTO_INCREMENT PRIMARY KEY,
     id_responsavel INT NOT NULL,
