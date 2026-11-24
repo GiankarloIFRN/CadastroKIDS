@@ -1,12 +1,12 @@
 # CadastroKIDS
-📌Projeto: Sistema de Gestão e Segurança Kids (Espaço Kids Eventos)
+Projeto: Sistema de Gestão e Segurança Kids (Espaço Kids Eventos)
 1. Visão Geral do Projeto
 O Espaço Kids Eventos é um sistema projetado para otimizar a recepção, o controle de acesso e a segurança de crianças em áreas recreativas de eventos.
 
-🎯 Problema Resolvido
+ Problema Resolvido
 Em eventos de grande porte, as filas de entrada nos espaços infantis costumam ser longas devido à complexidade da checagem de documentos e termos de responsabilidade. O processo manual/desintegrado causa gargalos, aumenta a insatisfação e compromete o tempo de resposta em situações de emergência.
 
-💡 Solução Proposta
+ Solução Proposta
 Uma plataforma centralizada que:
 
 Unifica Responsáveis e Dependente(s): Responsáveis com mais de uma criança realizam o cadastro de seus dados uma única vez (Relacionamento 1:N).
